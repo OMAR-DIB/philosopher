@@ -45,8 +45,8 @@ int	stop(t_data *data);
 void sleep_for(int duration);
 
 
-void print_status(t_data *data, int id, const char *status);
-
+size_t	print_status(t_philosopher *philo, char **action);
+void *philo_routine(void *arg);
 void start_simulation(t_data *data, t_philosopher *philo);
 // //void init_data(t_data *data, int argc, char **argv);
 // void cleanup(t_data *data);

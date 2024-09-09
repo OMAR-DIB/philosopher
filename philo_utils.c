@@ -36,11 +36,3 @@ long long current_time() {
 void sleep_for(int duration) {
     usleep(duration * 1000);
 }
-
-void print_status(t_data *data, int id, const char *status) {
-    pthread_mutex_lock(&data->print_lock);
-    if (!data->stop_simulation) {
-        printf("%lld %d %s\n", current_time() - data->simulation_start, id, status);
-    }
-    pthread_mutex_unlock(&data->print_lock);
-}
