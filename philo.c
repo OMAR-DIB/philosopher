@@ -2,7 +2,7 @@
 #include "philo.h"
 
 
- void	free_data(t_philosopher *philos, pthread_mutex_t *m_forks)
+void	free_data(t_philosopher *philos, pthread_mutex_t *m_forks)
 {
 	int	i;
 
@@ -28,8 +28,12 @@ int main(int argc, char **argv)
 	init_data(&data, argv);
 	forks = init_forks(&data);
 	philospher = init_philo(&data, &forks);
+	if (!philospher)
+	{
+		free(forks);
+		return (EXIT_FAILURE);
+	}
 	start_simulation(&data, philospher);
-   free_data(philospher, forks);
-
+    free_data(philospher, forks);
     return 0;
 }

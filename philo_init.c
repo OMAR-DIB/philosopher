@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 23:30:48 by odib              #+#    #+#             */
-/*   Updated: 2024/09/09 11:37:25 by odib             ###   ########.fr       */
+/*   Updated: 2024/09/10 11:13:56 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ t_philosopher	*init_philo(t_data *data, pthread_mutex_t **forks)
 	int				i;
 
 	philo = (t_philosopher *)malloc(sizeof(t_philosopher) * data->total_philosophers);
+	if (!philo)
+		return (NULL);
 	i = 0;
 	while (i < data->total_philosophers)
 	{
