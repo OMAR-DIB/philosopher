@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/11 10:25:53 by odib              #+#    #+#             */
+/*   Updated: 2024/09/11 10:25:58 by odib             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 
 
@@ -10,7 +22,7 @@ int main(int argc, char **argv)
         return 1;
     }
 	t_philosopher *philospher;
-	t_data *data;
+	t_data data;
 	pthread_mutex_t *forks;
 	init_data(&data, argv);
 	forks = init_forks(&data);
@@ -21,6 +33,6 @@ int main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	}
 	start_simulation(&data, philospher);
-    free_data(philospher, forks);
+    // free_data(philospher, forks);
     return 0;
 }

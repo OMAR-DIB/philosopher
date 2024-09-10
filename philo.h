@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:47:32 by odib              #+#    #+#             */
-/*   Updated: 2024/09/10 17:17:06 by odib             ###   ########.fr       */
+/*   Updated: 2024/09/11 10:29:02 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <stdbool.h>
+
+# define FORK_LOG "%-5ld %2d has taken a fork\n"
+# define EAT_LOG "%-5ld %2d is eating\n"
+# define SLEEP_LOG "%-5ld %2d is sleeping\n"
+# define THINK_LOG "%-5ld %2d is thinking\n"
+# define DEATH_LOG "%-5ld %2d died\n"
 
 typedef struct s_data
 {
@@ -57,7 +63,7 @@ int	stop(t_data *data);
 void sleep_for(int duration);
 
 
-size_t	print_status(t_philosopher *philo, char **action);
+size_t	print_sim_info(t_philosopher *philo, char action);
 void *philo_routine(void *arg);
 void start_simulation(t_data *data, t_philosopher *philo);
 // //void init_data(t_data *data, int argc, char **argv);
