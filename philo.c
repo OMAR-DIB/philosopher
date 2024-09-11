@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 10:25:53 by odib              #+#    #+#             */
-/*   Updated: 2024/09/11 11:06:18 by odib             ###   ########.fr       */
+/*   Updated: 2024/09/11 22:46:33 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,39 +36,24 @@ void free_data(t_data *data, pthread_mutex_t *forks)
     free(data);
 }
 
-// int main(int argc, char **argv)
-// {
-//     if (argc < 5 || argc > 6) {
-//         printf("Usage: %s number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]\n", argv[0]);
-//         return 1;
-//     }
-// 	t_philosopher *philospher;
-// 	t_data data;
-// 	pthread_mutex_t *forks;
-// 	init_data(&data, argv);
-// 	forks = init_forks(&data);
-// 	philospher = init_philo(&data, &forks);
-// 	if (!philospher)
-// 	{
-// 		free(forks);
-// 		return (EXIT_FAILURE);
-// 	}
-// 	start_simulation(&data, philospher);
-//     free_data(&data, forks);
-//     return 0;
-// }
-
-int main()
+int main(int argc, char **argv)
 {
-	int i = 5;
-	int c = 5;
-	int result;
-	int rr;
-	result = i++;
-	rr = ++c;
-	printf("%d \n %d \n", result, rr);
-	result++;
-	rr++;
-	printf("%d \n %d \n", result, rr);
-	return (0);
+    if (argc < 5 || argc > 6) {
+        printf("Usage: %s number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]\n", argv[0]);
+        return 1;
+    }
+	t_philosopher *philospher;
+	t_data data;
+	pthread_mutex_t *forks;
+	init_data(&data, argv);
+	forks = init_forks(&data);
+	philospher = init_philo(&data, &forks);
+	if (!philospher)
+	{
+		free(forks);
+		return (EXIT_FAILURE);
+	}
+	start_simulation(&data, philospher);
+    free_data(&data, forks);
+    return 0;
 }

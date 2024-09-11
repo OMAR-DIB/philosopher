@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:47:32 by odib              #+#    #+#             */
-/*   Updated: 2024/09/11 10:29:02 by odib             ###   ########.fr       */
+/*   Updated: 2024/09/11 23:50:17 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,20 @@ t_philosopher	*init_philo(t_data *data, pthread_mutex_t **forks);
 pthread_mutex_t	*init_forks(t_data *data);
 int	ft_atoi(const char *nptr);
 long long current_time();
-int	stop(t_data *data);
+int	check_simulation_stop(t_data *data);
+void	*run_philosopher(void *philosopher);
+
 
 void sleep_for(int duration);
 
 
-size_t	print_sim_info(t_philosopher *philo, char action);
+int	print_sim_info(t_philosopher *philo, char action);
 void *philo_routine(void *arg);
-void start_simulation(t_data *data, t_philosopher *philo);
+void	start_simulation(t_data *data, t_philosopher *philo);
+
+void	eating(t_philosopher *philo);
+void	sleeping(t_philosopher *philo);
+void	thinking(t_philosopher *philo);
 // //void init_data(t_data *data, int argc, char **argv);
 // void cleanup(t_data *data);
 
