@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:19:15 by odib              #+#    #+#             */
-/*   Updated: 2024/09/12 10:55:01 by odib             ###   ########.fr       */
+/*   Updated: 2024/09/12 11:09:53 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	*run_philosopher(void *philosopher)
 	{
 		print_sim_info(philo, 'F');
 		usleep(philo->sim_info->time_to_die * 1000);
-		// print_data(philo->sim_info, philo->id, "died");
 		return (NULL);
 	}
 	while (!check_simulation_stop(philo->sim_info))
@@ -54,18 +53,18 @@ void	*run_philosopher(void *philosopher)
 
 void	start_simulation(t_data *data, t_philosopher *philo)
 {
-	pthread_t	*seat;
-	pthread_t	manage;
+	pthread_t	*philo_threads;
+	pthread_t	monitor_thread;
 	int			i;
 
-	seat = malloc(sizeof(pthread_t) * data->total_philosophers);
+	philo_threads = malloc(sizeof(pthread_t) * data->total_philosophers);
 	i = -1;
 	while (++i < data->total_philosophers)
-		pthread_create(seat + i, NULL, run_philosopher, &philo[i]);
-	pthread_create(&manage, NULL, monitor_philosophers, philo);
+		pthread_create(philo_threads + i, NULL, run_philosopher, &philo[i]);
+	pthread_create(&monitor_thread, NULL, monitor_philosophers, philo);
 	i = -1;
 	while (++i < data->total_philosophers)
-		pthread_join(seat[i], NULL);
-	pthread_join(manage, NULL);
-	free(seat);
+		pthread_join(philo_threads[i], NULL);
+	pthread_join(monitor_thread, NULL);
+	free(philo_threads);
 }
