@@ -27,6 +27,20 @@ int	ft_atoi(const char *nptr)
 	return (result * sign);
 }
 
+int	ft_min(int a, int b)
+{
+	if (a < b)
+		return (a);
+	return (b);
+}
+
+int	ft_max(int a, int b)
+{
+	if (a > b)
+		return (a);
+	return (b);
+}
+
 long long current_time() {
     struct timeval tv;
     gettimeofday(&tv, NULL);

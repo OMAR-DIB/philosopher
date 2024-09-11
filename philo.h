@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:47:32 by odib              #+#    #+#             */
-/*   Updated: 2024/09/11 23:50:17 by odib             ###   ########.fr       */
+/*   Updated: 2024/09/12 10:51:44 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,19 @@ void	*run_philosopher(void *philosopher);
 
 
 void sleep_for(int duration);
+int	check_meal_completion(t_data *data);
+int	detect_starvation(t_philosopher *philo);
 
 
 int	print_sim_info(t_philosopher *philo, char action);
-void *philo_routine(void *arg);
+void	*monitor_philosophers(void *arg);
 void	start_simulation(t_data *data, t_philosopher *philo);
 
-void	eating(t_philosopher *philo);
-void	sleeping(t_philosopher *philo);
-void	thinking(t_philosopher *philo);
+void	philo_eat(t_philosopher *philo);
+void	philo_sleep(t_philosopher *philo);
+void	philo_think(t_philosopher *philo);
+int	ft_max(int a, int b);
+int	ft_min(int a, int b);
 // //void init_data(t_data *data, int argc, char **argv);
 // void cleanup(t_data *data);
 

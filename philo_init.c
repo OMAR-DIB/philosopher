@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 23:30:48 by odib              #+#    #+#             */
-/*   Updated: 2024/09/11 10:59:13 by odib             ###   ########.fr       */
+/*   Updated: 2024/09/12 10:50:48 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,6 @@ void	init_data(t_data *data, char **av)
 	pthread_mutex_init(&data->meals_lock, NULL);
 	pthread_mutex_init(&data->print_lock, NULL);
 	pthread_mutex_init(&data->simulation_lock, NULL);
-}
-
-int	ft_min(int a, int b)
-{
-	if (a < b)
-		return (a);
-	return (b);
-}
-
-int	ft_max(int a, int b)
-{
-	if (a > b)
-		return (a);
-	return (b);
 }
 
 t_philosopher	*init_philo(t_data *data, pthread_mutex_t **forks)

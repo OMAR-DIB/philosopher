@@ -1,71 +1,93 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_monitor.c                                    :+:      :+:    :+:   */
+/*   philo_routine.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/11 23:19:15 by odib              #+#    #+#             */
-/*   Updated: 2024/09/11 23:49:43 by odib             ###   ########.fr       */
+/*   Created: 2024/09/11 10:21:56 by odib              #+#    #+#             */
+/*   Updated: 2024/09/12 09:24:00 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	check_simulation_stop(t_data *data)
+int	print_sim_info(t_philosopher *philo, char action)
 {
-	pthread_mutex_lock(&data->simulation_lock);
-	if (data->stop_simulation == true)
+	size_t	current;
+	size_t	time_spent;
+
+	current = current_time();
+	time_spent = current - philo->sim_info->simulation_start;
+	pthread_mutex_lock(&philo->sim_info->print_lock);
+	if (action == 'F') // 'F' for TAKING_FORK
+		printf(FORK_LOG, time_spent, philo->id);
+	else if (action == 'E') // 'E' for EATING
+		printf(FORK_LOG FORK_LOG EAT_LOG, time_spent, \
+					philo->id, time_spent, philo->id, \
+					time_spent, philo->id);
+	else if (action == 'S') // 'S' for SLEEPING
+		printf(SLEEP_LOG, time_spent, philo->id);
+	else if (action == 'D') // 'D' for DEAD
+		printf(DEATH_LOG, time_spent, philo->id);
+	else if (action == 'T') // 'T' for THINKING
+		printf(THINK_LOG, time_spent, philo->id);
+	pthread_mutex_unlock(&philo->sim_info->print_lock);
+	return (current);
+}
+
+int	check_meal_completion(t_data *data)
+{
+	int	done;
+
+	done = 0;
+	pthread_mutex_lock(&data->meals_lock);
+	if (data->meals_eaten == data->total_philosophers)
 	{
-		pthread_mutex_unlock(&data->simulation_lock);
-		return (1);
+		done = 1;
 	}
-	pthread_mutex_unlock(&data->simulation_lock);
+	pthread_mutex_unlock(&data->meals_lock);
+	return (done);
+}
+
+int	detect_starvation(t_philosopher *philo)
+{
+	int	tik_tak;
+
+	pthread_mutex_lock(&philo->sim_info->last_meal_lock);
+	tik_tak = current_time() - philo->last_meal_time;
+	pthread_mutex_unlock(&philo->sim_info->last_meal_lock);
+	if (tik_tak > philo->sim_info->time_to_die)
+	{
+        return 1;
+	}
 	return (0);
 }
 
-void	*run_philosopher(void *philosopher)
+void	*monitor_philosophers(void *arg)
 {
 	t_philosopher	*philo;
+    t_data          *data;
+    int              i;
 
-	philo = philosopher;
-	if (philo->sim_info->total_philosophers == 1)
+	philo = (t_philosopher *)arg;
+    data = philo[0].sim_info;
+	while (!check_meal_completion(data))
 	{
-		print_sim_info(philo, 'F');
-		usleep(philo->sim_info->time_to_die * 1000);
-		// print_data(philo->sim_info, philo->id, "died");
-		return (NULL);
-	}
-	while (!check_simulation_stop(philo->sim_info))
-	{
-		eating(philo);
-		if (philo->meals_had == philo->sim_info->meals_required)
-		{
-			pthread_mutex_lock(&philo->sim_info->meals_lock);
-			philo->sim_info->meals_eaten += 1;
-			pthread_mutex_unlock(&philo->sim_info->meals_lock);
-            return (NULL);
-		}
-		sleeping(philo);
-		thinking(philo);
+        i = 0;
+        while (i < data->total_philosophers)
+        {
+            if (detect_starvation(&philo[i]))
+            {
+               pthread_mutex_lock(&data->simulation_lock);
+	            data->stop_simulation = true;
+	            pthread_mutex_unlock(&data->simulation_lock);
+				print_sim_info(&philo[i], 'D');
+                return (NULL);
+            }
+            i++;
+        }
+		usleep(3000);
 	}
 	return (NULL);
-}
-
-void	start_simulation(t_data *data, t_philosopher *philo)
-{
-	pthread_t	*seat;
-	pthread_t	manage;
-	int			i;
-
-	seat = malloc(sizeof(pthread_t) * data->total_philosophers);
-	i = -1;
-	while (++i < data->total_philosophers)
-		pthread_create(seat + i, NULL, run_philosopher, &philo[i]);
-	pthread_create(&manage, NULL, philo_routine, philo);
-	i = -1;
-	while (++i < data->total_philosophers)
-		pthread_join(seat[i], NULL);
-	pthread_join(manage, NULL);
-	free(seat);
 }
