@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:10:44 by odib              #+#    #+#             */
-/*   Updated: 2024/09/12 11:16:45 by odib             ###   ########.fr       */
+/*   Updated: 2024/09/12 10:46:41 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,15 @@ int	ft_max(int a, int b)
 	return (b);
 }
 
-long long current_time() {
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    return (tv.tv_sec * 1000LL + tv.tv_usec / 1000);
+long long	current_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000LL + tv.tv_usec / 1000);
 }
 
-void sleep_for(int duration) {
-    usleep(duration * 1000);
+void	sleep_for(int duration)
+{
+	usleep(duration * 1000);
 }

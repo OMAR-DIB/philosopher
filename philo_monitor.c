@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 10:21:56 by odib              #+#    #+#             */
-/*   Updated: 2024/09/12 11:12:14 by odib             ###   ########.fr       */
+/*   Updated: 2024/09/12 10:43:34 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	detect_starvation(t_philosopher *philo)
 	pthread_mutex_unlock(&philo->sim_info->last_meal_lock);
 	if (tik_tak > philo->sim_info->time_to_die)
 	{
-        return 1;
+		return (1);
 	}
 	return (0);
 }
@@ -43,26 +43,26 @@ int	detect_starvation(t_philosopher *philo)
 void	*monitor_philosophers(void *arg)
 {
 	t_philosopher	*philo;
-    t_data          *data;
-    int              i;
+	t_data			*data;
+	int				i;
 
 	philo = (t_philosopher *)arg;
-    data = philo[0].sim_info;
+	data = philo[0].sim_info;
 	while (!check_meal_completion(data))
 	{
-        i = 0;
-        while (i < data->total_philosophers)
-        {
-            if (detect_starvation(&philo[i]))
-            {
-               pthread_mutex_lock(&data->simulation_lock);
-	            data->stop_simulation = true;
-	            pthread_mutex_unlock(&data->simulation_lock);
+		i = 0;
+		while (i < data->total_philosophers)
+		{
+			if (detect_starvation(&philo[i]))
+			{
+				pthread_mutex_lock(&data->simulation_lock);
+				data->stop_simulation = true;
+				pthread_mutex_unlock(&data->simulation_lock);
 				print_sim_info(&philo[i], 'D');
-                return (NULL);
-            }
-            i++;
-        }
+				return (NULL);
+			}
+			i++;
+		}
 		usleep(3000);
 	}
 	return (NULL);

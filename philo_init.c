@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 23:30:48 by odib              #+#    #+#             */
-/*   Updated: 2024/09/12 10:50:48 by odib             ###   ########.fr       */
+/*   Updated: 2024/09/12 10:41:01 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ t_philosopher	*init_philo(t_data *data, pthread_mutex_t **forks)
 	t_philosopher	*philo;
 	int				i;
 
-	philo = (t_philosopher *)malloc(sizeof(t_philosopher) * data->total_philosophers);
+	philo = (t_philosopher *)malloc(
+			sizeof(t_philosopher) * data->total_philosophers);
 	if (!philo)
 		return (NULL);
 	i = 0;
@@ -45,8 +46,10 @@ t_philosopher	*init_philo(t_data *data, pthread_mutex_t **forks)
 		philo[i].id = i + 1;
 		philo[i].meals_had = 0;
 		philo[i].last_meal_time = data->simulation_start;
-		philo[i].left_fork = &(*forks)[ft_min(i, ((i + 1) % data->total_philosophers))];
-		philo[i].right_fork = &(*forks)[ft_max(i, ((i + 1) % data->total_philosophers))];
+		philo[i].left_fork = &(*forks)[ft_min(i,
+				((i + 1) % data->total_philosophers))];
+		philo[i].right_fork = &(*forks)[ft_max(i,
+				((i + 1) % data->total_philosophers))];
 		philo[i].sim_info = data;
 		i++;
 	}

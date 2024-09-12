@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 23:19:15 by odib              #+#    #+#             */
-/*   Updated: 2024/09/12 11:09:53 by odib             ###   ########.fr       */
+/*   Updated: 2024/09/12 10:44:47 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	*run_philosopher(void *philosopher)
 			pthread_mutex_lock(&philo->sim_info->meals_lock);
 			philo->sim_info->meals_eaten += 1;
 			pthread_mutex_unlock(&philo->sim_info->meals_lock);
-            return (NULL);
+			return (NULL);
 		}
 		philo_sleep(philo);
 		philo_think(philo);
